@@ -1,5 +1,5 @@
-class ApartmentsController < ApplicationController
-  before_action :set_apartment, only: [:show, :update, :destroy]
+class ApartmentsController < OpenReadController
+  before_action :set_apartment, only: [:update, :destroy]
 
   # GET /apartments
   def index
@@ -10,12 +10,13 @@ class ApartmentsController < ApplicationController
 
   # GET /apartments/1
   def show
+    @apartment = Apartment.find(params[:id])
     render json: @apartment
   end
 
   # POST /apartments
   def create
-    @apartment = Apartment.new(apartment_params)
+    @apartment = current_user.apartments.new(apartment_params)
 
     if @apartment.save
       render json: @apartment, status: :created, location: @apartment
@@ -41,7 +42,7 @@ class ApartmentsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_apartment
-      @apartment = Apartment.find(params[:id])
+      @apartment = current_user.apartments.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
