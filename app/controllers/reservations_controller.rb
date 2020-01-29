@@ -1,5 +1,5 @@
-class ReservationsController < ApplicationController
-  before_action :set_reservation, only: [:show, :update, :destroy]
+class ReservationsController < OpenReadController
+  before_action :set_reservation, only: [:update, :destroy]
 
   # GET /reservations
   def index
@@ -10,12 +10,13 @@ class ReservationsController < ApplicationController
 
   # GET /reservations/1
   def show
+    @reservation = Reservation.find(params[:id])
     render json: @reservation
   end
 
   # POST /reservations
   def create
-    @reservation = Reservation.new(reservation_params)
+    @reservation = current_user.reservations.new(reservation_params)
 
     if @reservation.save
       render json: @reservation, status: :created, location: @reservation
@@ -41,11 +42,11 @@ class ReservationsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_reservation
-      @reservation = Reservation.find(params[:id])
+      @reservation = urrent_user.reservations.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
     def reservation_params
-      params.require(:reservation).permit(:checkin_date, :checkout_date)
+      params.require(:reservation).permit(:checkin_date, :checkout_date, :apartment_id)
     end
 end
