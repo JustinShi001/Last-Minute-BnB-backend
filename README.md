@@ -19,16 +19,15 @@ backend.
  - Add/View a map with locations you would like to travel to
  - Block dates if a new reservation is being created with unavailable dates.
 ## Installation
-Last Minute BnB requires React to run.
+Last Minute BnB backend API requires Ruby on Rails and heroku.
 ### Deploy:
 ```sh
-$ npm install
-$ npm run deploy
+$ git push origin master
+$ git push heroku master
 ```
 ### Development:
 ```sh
-$ npm install
-$ npm run server
+$ bin/rails server
 ```
 
 ## Planning
